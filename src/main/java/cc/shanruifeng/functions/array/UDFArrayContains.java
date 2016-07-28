@@ -38,7 +38,7 @@ public class UDFArrayContains extends GenericUDF {
         // Check if two arguments were passed
         if (arguments.length != ARG_COUNT) {
             throw new UDFArgumentLengthException(
-                    "The function array_contains(array, value) takes exactly " + ARG_COUNT + "arguments.");
+                    "The function array_contains(array, value) takes exactly " + ARG_COUNT + " arguments.");
         }
 
         // Check if ARRAY_IDX argument is of category LIST

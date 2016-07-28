@@ -1,6 +1,6 @@
 package cc.shanruifeng.functions.array;
 
-import it.unimi.dsi.fastutil.ints.IntArrays;
+import cc.shanruifeng.functions.fastuitl.ints.IntArrays;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentLengthException;

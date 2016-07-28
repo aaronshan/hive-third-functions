@@ -1,7 +1,7 @@
 package cc.shanruifeng.functions.utils;
 
-import it.unimi.dsi.fastutil.ints.AbstractIntComparator;
-import it.unimi.dsi.fastutil.ints.IntComparator;
+import cc.shanruifeng.functions.fastuitl.ints.AbstractIntComparator;
+import cc.shanruifeng.functions.fastuitl.ints.IntComparator;
 import org.apache.hadoop.hive.serde2.objectinspector.ListObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorUtils;

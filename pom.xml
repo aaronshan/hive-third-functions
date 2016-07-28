@@ -23,7 +23,7 @@
         <dep.airlift.version>0.131</dep.airlift.version>
         <dep.jackson.version>2.4.4</dep.jackson.version>
         <dep.jmh.version>1.9.3</dep.jmh.version>
-        <dep.fastutil.version>6.5.9</dep.fastutil.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -83,9 +83,9 @@
             </dependency>
 
             <dependency>
-                <groupId>it.unimi.dsi</groupId>
-                <artifactId>fastutil</artifactId>
-                <version>${dep.fastutil.version}</version>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -139,8 +139,9 @@
         </dependency>
 
         <dependency>
-            <groupId>it.unimi.dsi</groupId>
-            <artifactId>fastutil</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

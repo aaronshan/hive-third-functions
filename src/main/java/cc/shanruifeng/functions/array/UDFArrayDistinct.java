@@ -1,6 +1,6 @@
 package cc.shanruifeng.functions.array;
 
-import it.unimi.dsi.fastutil.ints.IntArrays;
+import cc.shanruifeng.functions.fastuitl.ints.IntArrays;
 import java.util.ArrayList;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
@@ -38,7 +38,7 @@ public class UDFArrayDistinct extends GenericUDF {
         // Check if two arguments were passed
         if (arguments.length != ARG_COUNT) {
             throw new UDFArgumentLengthException(
-                    "The function array_distinct(array) takes exactly " + ARG_COUNT + "arguments.");
+                    "The function array_distinct(array) takes exactly " + ARG_COUNT + " warguments.");
         }
 
         // Check if two argument is of category LIST

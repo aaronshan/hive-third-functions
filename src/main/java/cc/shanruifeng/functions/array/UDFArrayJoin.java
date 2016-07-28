@@ -46,7 +46,7 @@ public class UDFArrayJoin extends GenericUDF {
         if (arguments.length > MAX_ARG_COUNT || arguments.length < MIN_ARG_COUNT) {
             throw new UDFArgumentLengthException(
                     "The function array_join(array, delimiter) or array_join(array, delimiter, null_replacement) takes exactly "
-                            + MIN_ARG_COUNT + " or " + MAX_ARG_COUNT + "arguments.");
+                            + MIN_ARG_COUNT + " or " + MAX_ARG_COUNT + " arguments.");
         }
 
         // Check if ARRAY_IDX argument is of category LIST

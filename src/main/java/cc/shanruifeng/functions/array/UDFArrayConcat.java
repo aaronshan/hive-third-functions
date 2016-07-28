@@ -35,7 +35,7 @@ public class UDFArrayConcat extends GenericUDF {
         // Check if two arguments were passed
         if (arguments.length != ARG_COUNT) {
             throw new UDFArgumentLengthException(
-                    "The function array_concat(array, array) takes exactly " + ARG_COUNT + "arguments.");
+                    "The function array_concat(array, array) takes exactly " + ARG_COUNT + " arguments.");
         }
 
         // Check if two argument is of category LIST
