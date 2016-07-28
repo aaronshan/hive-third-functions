@@ -35,7 +35,7 @@ It will generate hive-third-functions-${version}-shaded.jar in target directory.
 
 You can also directly download file from [release page](https://github.com/aaronshan/hive-third-functions/releases).
 
-> current latest version is `2.1.0`
+> current latest version is `2.2.0`
 
 ## Functions
 
@@ -51,34 +51,35 @@ You can also directly download file from [release page](https://github.com/aaron
 
 | function| description |
 |:--|:--|
-|array_contains(array\<E\>, E) -> boolean | whether array contains value or not.|
+|array_contains(array&lt;E&gt;, E) -> boolean | whether array contains value or not.|
 |array_intersect(array, array) -> array | returns the two array's intersection, without duplicates.|
-|array_max(array\<E\>) -> E | returns the maximum value of input array.|
-|array_min(array\<E\>) -> E | returns the minimum value of input array.|
+|array_max(array&lt;E&gt;) -> E | returns the maximum value of input array.|
+|array_min(array&lt;E&gt;) -> E | returns the minimum value of input array.|
 |array_join(array, delimiter, null_replacement) -> string | concatenates the elements of the given array using the delimiter and an optional `null_replacement` to replace nulls.|
 |array_distinct(array) -> array | remove duplicate values from the array.|
-|array_position(array\<E\>, E) -> long | returns the position of the first occurrence of the element in array (or 0 if not found).|
-|array_remove(array\<E\>, E) -> array | remove all elements that equal element from array.|
+|array_position(array&lt;E&gt;, E) -> long | returns the position of the first occurrence of the element in array (or 0 if not found).|
+|array_remove(array&lt;E&gt;, E) -> array | remove all elements that equal element from array.|
 |array_reverse(array) -> array | reverse the array element.|
 |array_sort(array) -> array | sorts and returns the array. The elements of array must be orderable.|
 |array_concat(array, array) -> array | concatenates two arrays.|
-|array_value_count(array\<E\>, E) -> long | count array's element number that element value equals given value.|
+|array_value_count(array&lt;E&gt;, E) -> long | count array's element number that element value equals given value.|
 |array_slice(array, start, length) -> array | subsets array starting from index start (or starting from the end if start is negative) with a length of length.|
-|array_element_at(array\<E\>, index) -> E | returns element of array at given index. If index < 0, element_at accesses elements from the last to the first.|
+|array_element_at(array&lt;E&gt;, index) -> E | returns element of array at given index. If index < 0, element_at accesses elements from the last to the first.|
 
 ### 3. map functions
 | function| description |
 |:--|:--|
-|map_build(x\<K\>, y\<V\>) -> map\<K, V\>| returns a map created using the given key/value arrays.|
-|map_concat(x\<K, V\>, y\<K, V\>) -> map\<K,V\> | returns the union of two maps. If a key is found in both `x` and `y`, that key’s value in the resulting map comes from `y`.| 
-|map_element_at(map\<K, V\>, key) -> V | returns value for given `key`, or `NULL` if the key is not contained in the map.|
-|map_equals(x\<K, V\>, y\<K, V\>) -> boolean |  whether map x equals with map y or not.|
+|map_build(x&lt;K&gt;, y&lt;V&gt;) -> map&lt;K, V&gt;| returns a map created using the given key/value arrays.|
+|map_concat(x&lt;K, V&gt;, y&lt;K, V&gt;) -> map&lt;K,V&gt; | returns the union of two maps. If a key is found in both `x` and `y`, that key’s value in the resulting map comes from `y`.| 
+|map_element_at(map&lt;K, V&gt;, key) -> V | returns value for given `key`, or `NULL` if the key is not contained in the map.|
+|map_equals(x&lt;K, V&gt;, y&lt;K, V&gt;) -> boolean |  whether map x equals with map y or not.|
 
 ### 4. date functions
 
 | function| description |
 |:--|:--|
 |day_of_week(date_string \| date) -> int | day of week,if monday,return 1, sunday return 7, error return null.|
+|day_of_year(date_string \| date) -> int | day of year. The value ranges from 1 to 366.|
 |zodiac_en(date_string \| date) -> string | convert date to zodiac|
 |zodiac_cn(date_string \| date) -> string | convert date to zodiac chinese | 
 |type_of_day(date_string \| date) -> string | for chinese. 获取日期的类型(1: 法定节假日, 2: 正常周末, 3: 正常工作日 4:攒假的工作日),错误返回-1. |
@@ -117,6 +118,27 @@ You can also directly download file from [release page](https://github.com/aaron
 |is_valid_id_card(string) -> boolean |determine is valid china id card No.|
 |id_card_info(string) -> json |get china id card info. include province, city, area etc.|
 
+### 8. geographic functions 
+
+| function| description |
+|:--|:--|
+|wgs_distance(double lat1, double lng1, double lat2, double lng2) -> double | calculate WGS84 coordinate distance, in meters. |
+|gcj_to_bd(double,double) -> json | GCJ-02(火星坐标系) convert to BD-09(百度坐标系), 谷歌、高德——>百度|
+|bd_to_gcj(double,double) -> json | BD-09(百度坐标系) convert to GCJ-02(火星坐标系), 百度——>谷歌、高德|
+|wgs_to_gcj(double,double) -> json | WGS84(地球坐标系) convert to GCJ02(火星坐标系)|
+|gcj_to_wgs(double,double) -> json | GCJ02(火星坐标系) convert to GPS84(地球坐标系), output coordinate WGS-84 accuracy within 1 to 2 meters.|
+|gcj_extract_wgs(double,double) -> json | GCJ02(火星坐标系) convert to GPS84, output coordinate WGS-84 accuracy within 0.5 meters. but compute cost more time than `gcj_to_wgs`. |
+
+> 关于互联网地图坐标系的说明见: [当前互联网地图的坐标系现状](https://github.com/aaronshan/hive-third-functions/tree/master/README-geo.md)
+
+
+### 9. url functions
+
+| function| description |
+|:--|:--|
+|url_encode(value) -> string | escapes value by encoding it so that it can be safely included in URL query parameter names and values|
+|url_decode(value) -> string | unescape the URL encoded value. This function is the inverse of `url_encode`. | 
+
 ## Use
 
 Put these statements into `${HOME}/.hiverc` or exec its on hive cli env.
@@ -147,6 +169,7 @@ create temporary function map_concat as 'cc.shanruifeng.functions.map.UDFMapConc
 create temporary function map_element_at as 'cc.shanruifeng.functions.map.UDFMapElementAt';
 create temporary function map_equals as 'cc.shanruifeng.functions.map.UDFMapEquals';
 create temporary function day_of_week as 'cc.shanruifeng.functions.date.UDFDayOfWeek';
+create temporary function day_of_year as 'cc.shanruifeng.functions.date.UDFDayOfYear';
 create temporary function type_of_day as 'cc.shanruifeng.functions.date.UDFTypeOfDay'; 
 create temporary function zodiac_cn as 'cc.shanruifeng.functions.date.UDFZodiacSignCn';
 create temporary function zodiac_en as 'cc.shanruifeng.functions.date.UDFZodiacSignEn';
@@ -167,6 +190,14 @@ create temporary function id_card_birthday as 'cc.shanruifeng.functions.card.UDF
 create temporary function id_card_gender as 'cc.shanruifeng.functions.card.UDFChinaIdCardGender';
 create temporary function is_valid_id_card as 'cc.shanruifeng.functions.card.UDFChinaIdCardValid';
 create temporary function id_card_info as 'cc.shanruifeng.functions.card.UDFChinaIdCardInfo';
+create temporary function wgs_distance as 'cc.shanruifeng.functions.geo.UDFGeoWgsDistance';
+create temporary function gcj_to_bd as 'cc.shanruifeng.functions.geo.UDFGeoGcjToBd';
+create temporary function bd_to_gcj as 'cc.shanruifeng.functions.geo.UDFGeoBdToGcj';
+create temporary function wgs_to_gcj as 'cc.shanruifeng.functions.geo.UDFGeoWgsToGcj';
+create temporary function gcj_to_wgs as 'cc.shanruifeng.functions.geo.UDFGeoGcjToWgs';
+create temporary function gcj_extract_wgs as 'cc.shanruifeng.functions.geo.UDFGeoGcjExtractWgs';
+create temporary function url_encode as 'cc.shanruifeng.functions.url.UDFUrlEncode';
+create temporary function url_decode as 'cc.shanruifeng.functions.url.UDFUrlDecode';
 ```
 
 You can use these statements on hive cli env get detail of function.
@@ -194,6 +225,7 @@ Example:
 
 ```
 select day_of_week('2016-07-12') => 2
+select day_of_year('2016-01-01') => 1
 select type_of_day('2016-10-01') => 1
 select type_of_day('2016-07-16') => 2
 select type_of_day('2016-07-15') => 3
@@ -249,4 +281,16 @@ select json_extract_scalar(json, '$.store.book[0].author');
 select json_size('{"x": {"a": 1, "b": 2}}', '$.x'); => 2
 select json_size('{"x": [1, 2, 3]}', '$.x'); => 3
 select json_size('{"x": {"a": 1, "b": 2}}', '$.x.a'); => 0
+```
+
+```
+select gcj_to_bd(39.915, 116.404) => {"lng":116.41036949371029,"lat":39.92133699351022}
+select bd_to_gcj(39.915, 116.404) => {"lng":116.39762729119315,"lat":39.90865673957631}
+select wgs_to_gcj(39.915, 116.404) => {"lng":116.41024449916938,"lat":39.91640428150164}
+select gcj_to_wgs(39.915, 116.404) => {"lng":116.39775550083061,"lat":39.91359571849836}
+select gcj_extract_wgs(39.915, 116.404) => {"lng":116.39775549316407,"lat":39.913596801757805}
+```
+
+```
+select url_encode('http://shanruifeng.cc/') => http%3A%2F%2Fshanruifeng.cc%2F
 ```

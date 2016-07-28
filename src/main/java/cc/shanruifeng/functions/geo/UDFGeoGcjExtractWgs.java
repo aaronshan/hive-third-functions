@@ -7,16 +7,16 @@ import org.apache.hadoop.io.Text;
 /**
  * @author ruifeng.shan
  * @date 2016-07-27
- * @time 17:04
+ * @time 17:05
  */
-@Description(name = "gcj_to_wgs"
+@Description(name = "gcj_extract_wgs"
         , value = "_FUNC_(gcjLat, gcjLng) - Convert GCJ-02 to WGS-84."
         , extended = "Example:\n > select _FUNC_(gcjLat, gcjLng) from src;")
-public class UDFGeoGcjToWgs {
+public class UDFGeoGcjExtractWgs {
     private Text result = new Text();
 
     public Text evaluate(double gcjLat, double gcjLng) {
-        result.set(GeoUtils.GCJ02ToWGS84(gcjLat, gcjLng));
+        result.set(GeoUtils.GCJ02ExtractWGS84(gcjLat, gcjLng));
         return result;
     }
 }
