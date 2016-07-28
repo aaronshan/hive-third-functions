@@ -51,22 +51,30 @@ You can also directly download file from [release page](https://github.com/aaron
 
 | function| description |
 |:--|:--|
-|array_contains(array<E>, E) -> boolean | whether array contains value or not.|
+|array_contains(array\<E\>, E) -> boolean | whether array contains value or not.|
 |array_intersect(array, array) -> array | returns the two array's intersection, without duplicates.|
-|array_max(array<E>) -> E | returns the maximum value of input array.|
-|array_min(array<E>) -> E | returns the minimum value of input array.|
+|array_max(array\<E\>) -> E | returns the maximum value of input array.|
+|array_min(array\<E\>) -> E | returns the minimum value of input array.|
 |array_join(array, delimiter, null_replacement) -> string | concatenates the elements of the given array using the delimiter and an optional `null_replacement` to replace nulls.|
 |array_distinct(array) -> array | remove duplicate values from the array.|
-|array_position(array<E>, E) -> long | returns the position of the first occurrence of the element in array (or 0 if not found).|
-|array_remove(array<E>, E) -> array | remove all elements that equal element from array.|
+|array_position(array\<E\>, E) -> long | returns the position of the first occurrence of the element in array (or 0 if not found).|
+|array_remove(array\<E\>, E) -> array | remove all elements that equal element from array.|
 |array_reverse(array) -> array | reverse the array element.|
 |array_sort(array) -> array | sorts and returns the array. The elements of array must be orderable.|
 |array_concat(array, array) -> array | concatenates two arrays.|
-|array_value_count(array<E>, E) -> long | count array's element number that element value equals given value.|
+|array_value_count(array\<E\>, E) -> long | count array's element number that element value equals given value.|
 |array_slice(array, start, length) -> array | subsets array starting from index start (or starting from the end if start is negative) with a length of length.|
-|array_element_at(array<E>, index) -> E | returns element of array at given index. If index < 0, element_at accesses elements from the last to the first.|
+|array_element_at(array\<E\>, index) -> E | returns element of array at given index. If index < 0, element_at accesses elements from the last to the first.|
 
-### 3. date functions
+### 3. map functions
+| function| description |
+|:--|:--|
+|map_build(x\<K\>, y\<V\>) -> map\<K, V\>| returns a map created using the given key/value arrays.|
+|map_concat(x\<K, V\>, y\<K, V\>) -> map\<K,V\> | returns the union of two maps. If a key is found in both `x` and `y`, that key’s value in the resulting map comes from `y`.| 
+|map_element_at(map\<K, V\>, key) -> V | returns value for given `key`, or `NULL` if the key is not contained in the map.|
+|map_equals(x\<K, V\>, y\<K, V\>) -> boolean |  whether map x equals with map y or not.|
+
+### 4. date functions
 
 | function| description |
 |:--|:--|
@@ -75,7 +83,8 @@ You can also directly download file from [release page](https://github.com/aaron
 |zodiac_cn(date_string \| date) -> string | convert date to zodiac chinese | 
 |type_of_day(date_string \| date) -> string | for chinese. 获取日期的类型(1: 法定节假日, 2: 正常周末, 3: 正常工作日 4:攒假的工作日),错误返回-1. |
 
-### 4. json functions
+### 5. json functions
+
 | function| description |
 |:--|:--|
 |json_array_get(json, jsonPath) -> array(varchar) |returns the element at the specified index into the `json_array`. The index is zero-based.|
@@ -86,7 +95,8 @@ You can also directly download file from [release page](https://github.com/aaron
 |json_extract_scalar(json, jsonPath) -> array(varchar) |like `json_extract`, but returns the result value as a string (as opposed to being encoded as JSON).|
 |json_size(json, jsonPath) -> array(varchar) |like `json_extract`, but returns the size of the value. For objects or arrays, the size is the number of members, and the size of a scalar value is zero.|
 
-### 5. bitwise functions
+### 6. bitwise functions
+
 | function| description |
 |:--|:--|
 |bit_count(x, bits) -> bigint | count the number of bits set in `x` (treated as bits-bit signed integer) in 2’s complement representation |
@@ -95,7 +105,7 @@ You can also directly download file from [release page](https://github.com/aaron
 |bitwise_or(x, y) -> bigint | returns the bitwise OR of `x` and `y` in 2’s complement arithmetic.|
 |bitwise_xor(x, y) -> bigint | returns the bitwise XOR of `x` and `y` in 2’s complement arithmetic. | 
 
-### 6. china id card functions
+### 7. china id card functions
 
 | function| description |
 |:--|:--|
@@ -132,6 +142,10 @@ create temporary function bitwise_and as 'cc.shanruifeng.functions.bitwise.UDFBi
 create temporary function bitwise_not as 'cc.shanruifeng.functions.bitwise.UDFBitwiseNot';
 create temporary function bitwise_or as 'cc.shanruifeng.functions.bitwise.UDFBitwiseOr';
 create temporary function bitwise_xor as 'cc.shanruifeng.functions.bitwise.UDFBitwiseXor';
+create temporary function map_build as 'cc.shanruifeng.functions.map.UDFMapBuild';
+create temporary function map_concat as 'cc.shanruifeng.functions.map.UDFMapConcat';
+create temporary function map_element_at as 'cc.shanruifeng.functions.map.UDFMapElementAt';
+create temporary function map_equals as 'cc.shanruifeng.functions.map.UDFMapEquals';
 create temporary function day_of_week as 'cc.shanruifeng.functions.date.UDFDayOfWeek';
 create temporary function type_of_day as 'cc.shanruifeng.functions.date.UDFTypeOfDay'; 
 create temporary function zodiac_cn as 'cc.shanruifeng.functions.date.UDFZodiacSignCn';
@@ -203,6 +217,13 @@ select array_concat(array(16,12,18,9,null), array(14,9,6,18,null)) => [16,12,18,
 select array_value_count(array(16,13,12,13,18,16,9,18), 13) => 2
 select array_slice(array(16,13,12,13,18,16,9,18), -2, 3) => [9,18]
 select array_element_at(array(16,13,12,13,18,16,9,18), -1) => 18
+```
+
+```
+select map_build(array('key1','key2'), array(16,12)) => {"key1":16,"key2":12}
+select map_concat(map_build(array('key1','key2'), array(16,12)), map_build(array('key1','key3'), array(17,18))) => {"key1":17,"key2":12,"key3":18}
+select map_element_at(map_build(array('key1','key2'), array(16,12)), 'key1') => 16
+select map_equals(map_build(array('key1','key2'), array(16,12)), map_build(array('key1','key2'), array(16,12))) => true
 ```
 
 ```
