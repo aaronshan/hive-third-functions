@@ -1,6 +1,8 @@
 package cc.shanruifeng.functions.bitwise;
 
 import org.apache.hadoop.hive.ql.exec.Description;
+import org.apache.hadoop.hive.ql.exec.UDF;
+import org.apache.hadoop.io.LongWritable;
 
 /**
  * @author ruifeng.shan
@@ -10,5 +12,11 @@ import org.apache.hadoop.hive.ql.exec.Description;
 @Description(name = "bitwise_not"
         , value = "_FUNC_(x) - returns the bitwise NOT of x in 2’s complement arithmetic."
         , extended = "Example:\n > select _FUNC_(9) from src;")
-public class UDFBitwiseNot {
+public class UDFBitwiseNot extends UDF {
+    private LongWritable result = new LongWritable();
+
+    public LongWritable evaluate(long num) {
+        result.set(~num);
+        return result;
+    }
 }

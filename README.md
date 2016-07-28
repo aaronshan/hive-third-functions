@@ -86,7 +86,16 @@ You can also directly download file from [release page](https://github.com/aaron
 |json_extract_scalar(json, jsonPath) -> array(varchar) |like `json_extract`, but returns the result value as a string (as opposed to being encoded as JSON).|
 |json_size(json, jsonPath) -> array(varchar) |like `json_extract`, but returns the size of the value. For objects or arrays, the size is the number of members, and the size of a scalar value is zero.|
 
-### 5. china id card functions
+### 5. bitwise functions
+| function| description |
+|:--|:--|
+|bit_count(x, bits) -> bigint | count the number of bits set in `x` (treated as bits-bit signed integer) in 2’s complement representation |
+|bitwise_and(x, y) -> bigint | returns the bitwise AND of `x` and `y` in 2’s complement arithmetic.|
+|bitwise_not(x) -> bigint | returns the bitwise NOT of `x` in 2’s complement arithmetic. | 
+|bitwise_or(x, y) -> bigint | returns the bitwise OR of `x` and `y` in 2’s complement arithmetic.|
+|bitwise_xor(x, y) -> bigint | returns the bitwise XOR of `x` and `y` in 2’s complement arithmetic. | 
+
+### 6. china id card functions
 
 | function| description |
 |:--|:--|
@@ -118,6 +127,11 @@ create temporary function array_concat as 'cc.shanruifeng.functions.array.UDFArr
 create temporary function array_value_count as 'cc.shanruifeng.functions.array.UDFArrayValueCount';
 create temporary function array_slice as 'cc.shanruifeng.functions.array.UDFArraySlice';
 create temporary function array_element_at as 'cc.shanruifeng.functions.array.UDFArrayElementAt';
+create temporary function bit_count as 'cc.shanruifeng.functions.bitwise.UDFBitCount';
+create temporary function bitwise_and as 'cc.shanruifeng.functions.bitwise.UDFBitwiseAnd';
+create temporary function bitwise_not as 'cc.shanruifeng.functions.bitwise.UDFBitwiseNot';
+create temporary function bitwise_or as 'cc.shanruifeng.functions.bitwise.UDFBitwiseOr';
+create temporary function bitwise_xor as 'cc.shanruifeng.functions.bitwise.UDFBitwiseXor';
 create temporary function day_of_week as 'cc.shanruifeng.functions.date.UDFDayOfWeek';
 create temporary function type_of_day as 'cc.shanruifeng.functions.date.UDFTypeOfDay'; 
 create temporary function zodiac_cn as 'cc.shanruifeng.functions.date.UDFZodiacSignCn';
