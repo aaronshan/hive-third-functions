@@ -11,7 +11,7 @@ Some useful custom hive udf functions, especial array and json functions.
 
 > Note:
 > 1. hive-third-functions support hive-0.11.0 or higher.
-> 2. hive-third-functions `3.0.0` need java8 or higher.
+> 2. hive-third-functions `2.2.0` need java8 or higher.
 
 ## Build
 

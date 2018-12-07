@@ -25,7 +25,7 @@ import static cc.shanruifeng.functions.utils.Failures.checkCondition;
         " > select _FUNC_('2016-04-12', '2016-04-14') from src;")
 public class UDFSequence extends UDF {
     public final static DateTimeFormatter DEFAULT_DATE_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-    private static final long MAX_RESULT_ENTRIES = 10_000;
+    private static final long MAX_RESULT_ENTRIES = 10000;
 
     public UDFSequence() {
 

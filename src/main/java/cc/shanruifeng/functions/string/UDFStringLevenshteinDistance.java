@@ -55,7 +55,7 @@ public class UDFStringLevenshteinDistance extends UDF {
             return result;
         }
 
-        checkCondition((leftCodePoints.length * (rightCodePoints.length - 1)) <= 1_000_000,
+        checkCondition((leftCodePoints.length * (rightCodePoints.length - 1)) <= 1000000,
                 "The combined inputs for Levenshtein distance are too large");
 
         int[] distances = new int[rightCodePoints.length];

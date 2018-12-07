@@ -5,10 +5,11 @@ import com.google.re2j.Matcher;
 import com.google.re2j.Options;
 import com.google.re2j.Pattern;
 import io.airlift.slice.Slice;
-import java.util.List;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.re2j.Options.Algorithm.DFA_FALLBACK_TO_NFA;
@@ -76,14 +77,16 @@ public final class Re2JRegexp {
         Matcher matcher = re2jPattern.matcher(source);
         try {
             return matcher.replaceAll(replacement);
-        } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
+        } catch (IndexOutOfBoundsException e) {
+            throw new HiveException("Illegal replacement sequence: " + replacement.toStringUtf8());
+        } catch (IllegalArgumentException e) {
             throw new HiveException("Illegal replacement sequence: " + replacement.toStringUtf8());
         }
     }
 
     public List<Object> extractAll(Slice source, long groupIndex) throws HiveException {
         Matcher matcher = re2jPattern.matcher(source);
-        int group = toIntExact(groupIndex);
+        int group = (int)(groupIndex);
         validateGroup(group, matcher.groupCount());
 
         List<Object> list = Lists.newArrayList();
@@ -104,7 +107,7 @@ public final class Re2JRegexp {
 
     public Slice extract(Slice source, long groupIndex) throws HiveException {
         Matcher matcher = re2jPattern.matcher(source);
-        int group = toIntExact(groupIndex);
+        int group = (int)(groupIndex);
         validateGroup(group, matcher.groupCount());
 
         if (!matcher.find()) {
