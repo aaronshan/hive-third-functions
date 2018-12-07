@@ -72,7 +72,6 @@ You can also directly download file from [release page](https://github.com/aaron
 |array_value_count(array&lt;E&gt;, E) -> long | count array's element number that element value equals given value.|
 |array_slice(array, start, length) -> array | subsets array starting from index start (or starting from the end if start is negative) with a length of length.|
 |array_element_at(array&lt;E&gt;, index) -> E | returns element of array at given index. If index < 0, element_at accesses elements from the last to the first.|
-|array_filter(array&lt;E&gt;, function<E, boolean>)) -> E | constructs an array from those elements of array for which function returns true.|
 |array_shuffle(array) -> array | Generate a random permutation of the given array x.|
 |sequence(start, end) -> array<Long> | Generate a sequence of integers from start to stop.|
 |sequence(start, end, step) -> array<Long> | Generate a sequence of integers from start to stop, incrementing by step.|
@@ -185,7 +184,6 @@ create temporary function array_concat as 'cc.shanruifeng.functions.array.UDFArr
 create temporary function array_value_count as 'cc.shanruifeng.functions.array.UDFArrayValueCount';
 create temporary function array_slice as 'cc.shanruifeng.functions.array.UDFArraySlice';
 create temporary function array_element_at as 'cc.shanruifeng.functions.array.UDFArrayElementAt';
-create temporary function array_filter as 'cc.shanruifeng.functions.array.UDFArrayFilter';
 create temporary function array_shuffle as 'cc.shanruifeng.functions.array.UDFArrayShuffle';
 create temporary function sequence as 'cc.shanruifeng.functions.array.UDFSequence';
 create temporary function bit_count as 'cc.shanruifeng.functions.bitwise.UDFBitCount';
@@ -286,10 +284,6 @@ select array_concat(array(16,12,18,9,null), array(14,9,6,18,null)) => [16,12,18,
 select array_value_count(array(16,13,12,13,18,16,9,18), 13) => 2
 select array_slice(array(16,13,12,13,18,16,9,18), -2, 3) => [9,18]
 select array_element_at(array(16,13,12,13,18,16,9,18), -1) => 18
-select array_filter(array(16,13), 'x -> x > 15') => [16]
-select array_filter(array('a','b'), 'x -> x == \'a\'') => [a]
-select array_filter(array(true, false, NULL), 'x -> x != null && x') => [true]
-select array_filter(array(array('abc', null, '123'), array ('def', 'x', '456')), 'x -> x.get(1) == null') => [['abc', null, '123']]
 select array_shuffle(array(16,12,18,9))
 select sequence(1, 5) => [1, 2, 3, 4, 5]
 select sequence(5, 1) => [5, 4, 3, 2, 1]
