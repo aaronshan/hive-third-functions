@@ -60,6 +60,7 @@ You can also directly download file from [release page](https://github.com/aaron
 |split_to_multimap(string, entryDelimiter, keyValueDelimiter) -> map(varchar, array(varchar)) | Splits string by entryDelimiter and keyValueDelimiter and returns a map containing an array of values for each unique key. entryDelimiter splits string into key-value pairs. keyValueDelimiter splits each pair into key and value. The values for each key will be in the same order as they appeared in string.|
 
 [Normalize Form Description](#jump)
+
 | Form	| Description |
 |:--|:--|
 | NFD	| Canonical Decomposition |
