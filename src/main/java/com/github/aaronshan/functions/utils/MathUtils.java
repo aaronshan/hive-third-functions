@@ -1,8 +1,8 @@
-package cc.shanruifeng.functions.utils;
+package com.github.aaronshan.functions.utils;
 
 import org.apache.hadoop.hive.ql.metadata.HiveException;
 
-import static cc.shanruifeng.functions.utils.Failures.checkCondition;
+import static com.github.aaronshan.functions.utils.Failures.checkCondition;
 import static java.lang.Character.MAX_RADIX;
 import static java.lang.Character.MIN_RADIX;
 

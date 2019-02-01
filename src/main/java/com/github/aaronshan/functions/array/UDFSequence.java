@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.array;
+package com.github.aaronshan.functions.array;
 
 import com.google.common.collect.Lists;
 import org.apache.hadoop.hive.ql.exec.Description;
@@ -12,8 +12,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.List;
 
-import static java.lang.Math.toIntExact;
-import static cc.shanruifeng.functions.utils.Failures.checkCondition;
+import static com.github.aaronshan.functions.utils.Failures.checkCondition;
 /**
  * @author aaron02
  * @date 2018-08-18 上午9:23
@@ -25,7 +24,7 @@ import static cc.shanruifeng.functions.utils.Failures.checkCondition;
         " > select _FUNC_('2016-04-12', '2016-04-14') from src;")
 public class UDFSequence extends UDF {
     public final static DateTimeFormatter DEFAULT_DATE_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-    private static final long MAX_RESULT_ENTRIES = 10_000;
+    private static final long MAX_RESULT_ENTRIES = 10000;
 
     public UDFSequence() {
 
@@ -43,6 +42,13 @@ public class UDFSequence extends UDF {
         long startMillis = DateTime.parse(start.toString(), DEFAULT_DATE_FORMATTER).getMillis();
         long stopMillis = DateTime.parse(stop.toString(), DEFAULT_DATE_FORMATTER).getMillis();
         return fixedWidthSequence(startMillis, stopMillis, step, String.class);
+    }
+
+    public static int toIntExact(long value) {
+        if ((int)value != value) {
+            throw new ArithmeticException("integer overflow");
+        }
+        return (int)value;
     }
 
     private static Object fixedWidthSequence(long start, long stop, long step, Class type) throws HiveException {

@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.string;
+package com.github.aaronshan.functions.string;
 
 import com.google.common.base.Splitter;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorUtils;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
 
-import static cc.shanruifeng.functions.utils.Failures.checkCondition;
+import static com.github.aaronshan.functions.utils.Failures.checkCondition;
 
 /**
  * @author ruifeng.shan

@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.regexp;
+package com.github.aaronshan.functions.regexp;
 
 import io.airlift.slice.Slices;
 import org.apache.hadoop.hive.ql.exec.Description;

@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.string;
+package com.github.aaronshan.functions.string;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.hadoop.hive.ql.exec.Description;

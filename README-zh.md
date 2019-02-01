@@ -187,8 +187,8 @@ create temporary function array_slice as 'com.github.aaronshan.functions.array.U
 create temporary function array_element_at as 'com.github.aaronshan.functions.array.UDFArrayElementAt';
 create temporary function bit_count as 'com.github.aaronshan.functions.bitwise.UDFBitCount';
 create temporary function bitwise_and as 'com.github.aaronshan.functions.bitwise.UDFBitwiseAnd';
-create temporary function array_shuffle as 'cc.shanruifeng.functions.array.UDFArrayShuffle';
-create temporary function sequence as 'cc.shanruifeng.functions.array.UDFSequence';
+create temporary function array_shuffle as 'com.github.aaronshan.functions.array.UDFArrayShuffle';
+create temporary function sequence as 'com.github.aaronshan.functions.array.UDFSequence';
 create temporary function bitwise_not as 'com.github.aaronshan.functions.bitwise.UDFBitwiseNot';
 create temporary function bitwise_or as 'com.github.aaronshan.functions.bitwise.UDFBitwiseOr';
 create temporary function bitwise_xor as 'com.github.aaronshan.functions.bitwise.UDFBitwiseXor';
@@ -226,14 +226,14 @@ create temporary function gcj_to_wgs as 'com.github.aaronshan.functions.geo.UDFG
 create temporary function gcj_extract_wgs as 'com.github.aaronshan.functions.geo.UDFGeoGcjExtractWgs';
 create temporary function url_encode as 'com.github.aaronshan.functions.url.UDFUrlEncode';
 create temporary function url_decode as 'com.github.aaronshan.functions.url.UDFUrlDecode';
-create temporary function infinity as 'cc.shanruifeng.functions.math.UDFMathInfinity';
-create temporary function is_finite as 'cc.shanruifeng.functions.math.UDFMathIsFinite';
-create temporary function is_infinite as 'cc.shanruifeng.functions.math.UDFMathIsInfinite';
-create temporary function is_nan as 'cc.shanruifeng.functions.math.UDFMathIsNaN';
-create temporary function nan as 'cc.shanruifeng.functions.math.UDFMathIsNaN';
-create temporary function from_base as 'cc.shanruifeng.functions.math.UDFMathFromBase';
-create temporary function to_base as 'cc.shanruifeng.functions.math.UDFMathToBase';
-create temporary function cosine_similarity as 'cc.shanruifeng.functions.math.UDFMathCosineSimilarity';
+create temporary function infinity as 'com.github.aaronshan.functions.math.UDFMathInfinity';
+create temporary function is_finite as 'com.github.aaronshan.functions.math.UDFMathIsFinite';
+create temporary function is_infinite as 'com.github.aaronshan.functions.math.UDFMathIsInfinite';
+create temporary function is_nan as 'com.github.aaronshan.functions.math.UDFMathIsNaN';
+create temporary function nan as 'com.github.aaronshan.functions.math.UDFMathIsNaN';
+create temporary function from_base as 'com.github.aaronshan.functions.math.UDFMathFromBase';
+create temporary function to_base as 'com.github.aaronshan.functions.math.UDFMathToBase';
+create temporary function cosine_similarity as 'com.github.aaronshan.functions.math.UDFMathCosineSimilarity';
 ```
 
 你可以在hive的命令杭中使用下面的语句来查看函数的细节.

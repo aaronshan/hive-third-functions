@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.math;
+package com.github.aaronshan.functions.math;
 
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDF;
@@ -6,7 +6,7 @@ import org.apache.hadoop.hive.ql.metadata.HiveException;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 
-import static cc.shanruifeng.functions.utils.MathUtils.checkRadix;
+import static com.github.aaronshan.functions.utils.MathUtils.checkRadix;
 import static java.lang.String.format;
 
 /**

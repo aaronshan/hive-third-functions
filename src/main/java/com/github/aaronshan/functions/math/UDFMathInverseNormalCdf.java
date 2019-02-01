@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.math;
+package com.github.aaronshan.functions.math;
 
 import org.apache.commons.math3.special.Erf;
 import org.apache.hadoop.hive.ql.exec.Description;
@@ -6,7 +6,7 @@ import org.apache.hadoop.hive.ql.exec.UDF;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
 import org.apache.hadoop.io.DoubleWritable;
 
-import static cc.shanruifeng.functions.utils.Failures.checkCondition;
+import static com.github.aaronshan.functions.utils.Failures.checkCondition;
 
 /**
  * @author ruifeng.shan

@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.utils;
+package com.github.aaronshan.functions.utils;
 
 import org.apache.hadoop.hive.ql.metadata.HiveException;
 

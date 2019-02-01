@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.array;
+package com.github.aaronshan.functions.array;
 
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
@@ -9,7 +9,7 @@ import org.apache.hadoop.hive.ql.udf.generic.GenericUDF;
 import org.apache.hadoop.hive.serde2.objectinspector.*;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 /**
  * @author aaron02
@@ -91,7 +91,8 @@ public class UDFArrayShuffle extends GenericUDF {
         // Fisher-Yates shuffle
         // Randomly swap a pair of positions
         for (int i = arrayLength - 1; i > 0; i--) {
-            int index = ThreadLocalRandom.current().nextInt(i + 1);
+            Random random = new Random();
+            int index = random.nextInt(i + 1);
             int swap = positions[i];
             positions[i] = positions[index];
             positions[index] = swap;

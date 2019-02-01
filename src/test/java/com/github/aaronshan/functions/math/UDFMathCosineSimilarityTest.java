@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.math;
+package com.github.aaronshan.functions.math;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;

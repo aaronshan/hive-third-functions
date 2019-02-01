@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.math;
+package com.github.aaronshan.functions.math;
 
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDF;

@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.regexp;
+package com.github.aaronshan.functions.regexp;
 
 import io.airlift.slice.Slices;
 import org.apache.hadoop.hive.ql.exec.Description;
@@ -12,7 +12,7 @@ import org.apache.hadoop.io.Text;
  * @date 2018-07-27
  * @time 22:38
  */
-@Description(name = "regexp_like"
+@Description(name = "regexp_extract"
         , value = "_FUNC_(string, string) - returns substrings matching a regular expression."
         , extended = "Example:\n > select _FUNC_(string, pattern) from src;")
 public class UDFRe2JRegexpExtract extends UDF {

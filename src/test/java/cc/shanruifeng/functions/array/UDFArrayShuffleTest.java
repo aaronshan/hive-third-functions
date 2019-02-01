@@ -1,5 +1,6 @@
 package cc.shanruifeng.functions.array;
 
+import com.github.aaronshan.functions.array.UDFArrayShuffle;
 import com.google.common.collect.ImmutableList;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF;

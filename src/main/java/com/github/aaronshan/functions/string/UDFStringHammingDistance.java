@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.string;
+package com.github.aaronshan.functions.string;
 
 import io.airlift.slice.Slice;
 import io.airlift.slice.Slices;
@@ -8,7 +8,7 @@ import org.apache.hadoop.hive.ql.metadata.HiveException;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 
-import static cc.shanruifeng.functions.utils.Failures.checkCondition;
+import static com.github.aaronshan.functions.utils.Failures.checkCondition;
 import static io.airlift.slice.SliceUtf8.lengthOfCodePoint;
 import static io.airlift.slice.SliceUtf8.tryGetCodePointAt;
 

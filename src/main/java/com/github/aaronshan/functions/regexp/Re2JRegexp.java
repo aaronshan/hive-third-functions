@@ -1,4 +1,4 @@
-package cc.shanruifeng.functions.regexp;
+package com.github.aaronshan.functions.regexp;
 
 import com.google.common.collect.Lists;
 import com.google.re2j.Matcher;
@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.re2j.Options.Algorithm.DFA_FALLBACK_TO_NFA;
-import static java.lang.Math.toIntExact;
 import static java.lang.String.format;
 
 /**
@@ -76,9 +75,18 @@ public final class Re2JRegexp {
         Matcher matcher = re2jPattern.matcher(source);
         try {
             return matcher.replaceAll(replacement);
-        } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
+        } catch (IndexOutOfBoundsException e) {
+            throw new HiveException("Illegal replacement sequence: " + replacement.toStringUtf8());
+        } catch (IllegalArgumentException e) {
             throw new HiveException("Illegal replacement sequence: " + replacement.toStringUtf8());
         }
+    }
+
+    public static int toIntExact(long value) {
+        if ((int)value != value) {
+            throw new ArithmeticException("integer overflow");
+        }
+        return (int)value;
     }
 
     public List<Object> extractAll(Slice source, long groupIndex) throws HiveException {
