@@ -67,7 +67,7 @@ public class UDFArrayValueCount extends GenericUDF {
 
         // Check if the comparison is supported for this type
         if (!ObjectInspectorUtils.compareSupported(valueOI)) {
-            throw new UDFArgumentException("The function array_contains"
+            throw new UDFArgumentException("The function array_value_count"
                     + " does not support comparison for "
                     + "\"" + valueOI.getTypeName() + "\""
                     + " types");

@@ -10,7 +10,8 @@
 hive-third-functions 包含了一些很有用的hive udf函数，特别是数组和json函数.
 
 > 注意:
-> hive-third-functions支持hive-0.11.0或更高版本.
+> 1. hive-third-functions支持hive-0.11.0或更高版本.
+> 2. 运行`3.0.0`及以上版本需要Java8及以上
 
 ## 编译
 
@@ -40,7 +41,7 @@ mvn clean package -DskipTests
 
 你也可以直接在发布页下载打包好了最新版本 [发布页](https://github.com/aaronshan/hive-third-functions/releases).
 
-> 当前最新的版本是 `2.1.3`
+> 当前最新的版本是 `3.0.0`
 
 ## 函数
 
@@ -71,6 +72,10 @@ mvn clean package -DskipTests
 |array_value_count(array&lt;E&gt;, E) -> long | 统计数组中包含给定元素的个数.|
 |array_slice(array, start, length) -> array | 对数组进行分片操作，start为正数从前开始分片, start为负数从后开始分片, 长度为指定的长度.|
 |array_element_at(array&lt;E&gt;, index) -> E | 返回指定位置的数组元素. 如果索引位置 < 0, 则从尾部开始计数并返回.|
+|array_shuffle(array) -> array | 对数组shuffle.|
+|sequence(start, end) -> array<Long> | 生成数组序列.|
+|sequence(start, end, step) -> array<Long> | 生成数组序列.|
+|sequence(start_date_string, end_data_string, step) -> array<String> | 生成日期数组序列.|
 
 ### 3. map函数
 | 函数| 描述 |
@@ -145,6 +150,20 @@ mvn clean package -DskipTests
 |url_encode(value) -> string | escapes value by encoding it so that it can be safely included in URL query parameter names and values|
 |url_decode(value) -> string | unescape the URL encoded value. This function is the inverse of `url_encode`. | 
 
+### 10. 数学函数
+
+| function| description |
+|:--|:--|
+|infinity() -> double | 获取正无穷常数|
+|is_finite(x) -> boolean | 判断x是否为有限数值|
+|is_infinite(x) -> boolean |判断x是否为无穷数值|
+|is_nan(x) -> boolean | 判断x是否不是一个数值类型的变量|
+|nan() -> double | 获取一个表示NAN（not-a-number）的常数 |
+|from_base(string, radix) -> bigint | 获取字面量的值，该值的基数为radix|
+|to_base(x, radix) -> varchar | 返回x以radix为基数的字面量|
+|cosine_similarity(x, y) -> double | 返回两个稀疏向量的余弦相似度|
+
+
 ## 用法
 
 将下面这些内容写入 `${HOME}/.hiverc` 文件, 或者也可以按需在hive命令行环境中执行.
@@ -168,6 +187,8 @@ create temporary function array_slice as 'com.github.aaronshan.functions.array.U
 create temporary function array_element_at as 'com.github.aaronshan.functions.array.UDFArrayElementAt';
 create temporary function bit_count as 'com.github.aaronshan.functions.bitwise.UDFBitCount';
 create temporary function bitwise_and as 'com.github.aaronshan.functions.bitwise.UDFBitwiseAnd';
+create temporary function array_shuffle as 'cc.shanruifeng.functions.array.UDFArrayShuffle';
+create temporary function sequence as 'cc.shanruifeng.functions.array.UDFSequence';
 create temporary function bitwise_not as 'com.github.aaronshan.functions.bitwise.UDFBitwiseNot';
 create temporary function bitwise_or as 'com.github.aaronshan.functions.bitwise.UDFBitwiseOr';
 create temporary function bitwise_xor as 'com.github.aaronshan.functions.bitwise.UDFBitwiseXor';
@@ -205,6 +226,14 @@ create temporary function gcj_to_wgs as 'com.github.aaronshan.functions.geo.UDFG
 create temporary function gcj_extract_wgs as 'com.github.aaronshan.functions.geo.UDFGeoGcjExtractWgs';
 create temporary function url_encode as 'com.github.aaronshan.functions.url.UDFUrlEncode';
 create temporary function url_decode as 'com.github.aaronshan.functions.url.UDFUrlDecode';
+create temporary function infinity as 'cc.shanruifeng.functions.math.UDFMathInfinity';
+create temporary function is_finite as 'cc.shanruifeng.functions.math.UDFMathIsFinite';
+create temporary function is_infinite as 'cc.shanruifeng.functions.math.UDFMathIsInfinite';
+create temporary function is_nan as 'cc.shanruifeng.functions.math.UDFMathIsNaN';
+create temporary function nan as 'cc.shanruifeng.functions.math.UDFMathIsNaN';
+create temporary function from_base as 'cc.shanruifeng.functions.math.UDFMathFromBase';
+create temporary function to_base as 'cc.shanruifeng.functions.math.UDFMathToBase';
+create temporary function cosine_similarity as 'cc.shanruifeng.functions.math.UDFMathCosineSimilarity';
 ```
 
 你可以在hive的命令杭中使用下面的语句来查看函数的细节.
@@ -257,6 +286,11 @@ select array_concat(array(16,12,18,9,null), array(14,9,6,18,null)) => [16,12,18,
 select array_value_count(array(16,13,12,13,18,16,9,18), 13) => 2
 select array_slice(array(16,13,12,13,18,16,9,18), -2, 3) => [9,18]
 select array_element_at(array(16,13,12,13,18,16,9,18), -1) => 18
+select array_shuffle(array(16,12,18,9))
+select sequence(1, 5) => [1, 2, 3, 4, 5]
+select sequence(5, 1) => [5, 4, 3, 2, 1]
+select sequence(1, 9, 4) => [1, 5, 9]
+select sequence('2016-04-12 00:00:00', '2016-04-14 00:00:00', 24*3600*1000) => ['2016-04-12 00:00:00', '2016-04-13 00:00:00', '2016-04-14 00:00:00']
 ```
 
 ```
@@ -301,4 +335,8 @@ select gcj_extract_wgs(39.915, 116.404) => {"lng":116.39775549316407,"lat":39.91
 
 ```
 select url_encode('http://shanruifeng.cc/') => http%3A%2F%2Fshanruifeng.cc%2F
+```
+
+```
+select cosine_similarity(map_build(array['a'], array[1.0]), map_build(array['a'], array[2.0])); => 1.0
 ```

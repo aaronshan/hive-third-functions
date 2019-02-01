@@ -2,6 +2,7 @@ package com.github.aaronshan.functions.string;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.hadoop.hive.ql.exec.Description;
+import org.apache.hadoop.hive.ql.exec.UDF;
 import org.apache.hadoop.io.Text;
 
 /**
@@ -12,7 +13,7 @@ import org.apache.hadoop.io.Text;
 @Description(name = "sha256"
         , value = "_FUNC_(string) - get sha256 hash code by given input string."
         , extended = "Example:\n > select _FUNC_(string) from src;")
-public class UDFSha256 {
+public class UDFSha256 extends UDF {
     private Text result = new Text();
 
     public UDFSha256() {

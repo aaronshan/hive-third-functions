@@ -17,7 +17,5 @@ install:
   - mvn install:install-file -DgroupId=javax.jdo -DartifactId=jdo2-api -Dversion=2.3-ec -Dpackaging=jar -Dfile=$HOME/jdo2-api-2.3-ec.jar
 
 script:
-  - jdk_switcher use openjdk7
-  - mvn clean package
   - jdk_switcher use oraclejdk8
   - mvn clean package

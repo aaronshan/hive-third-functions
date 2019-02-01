@@ -10,7 +10,8 @@
 Some useful custom hive udf functions, especial array and json functions.
 
 > Note:
-> hive-third-functions support hive-0.11.0 or higher.
+> 1. hive-third-functions support hive-0.11.0 or higher.
+> 2. hive-third-functions `3.0.0` need java8 or higher.
 
 ## Build
 
@@ -40,7 +41,7 @@ It will generate hive-third-functions-${version}-shaded.jar in target directory.
 
 You can also directly download file from [release page](https://github.com/aaronshan/hive-third-functions/releases).
 
-> current latest version is `2.1.3`
+> current latest version is `3.0.0`
 
 ## Functions
 
@@ -71,6 +72,10 @@ You can also directly download file from [release page](https://github.com/aaron
 |array_value_count(array&lt;E&gt;, E) -> long | count array's element number that element value equals given value.|
 |array_slice(array, start, length) -> array | subsets array starting from index start (or starting from the end if start is negative) with a length of length.|
 |array_element_at(array&lt;E&gt;, index) -> E | returns element of array at given index. If index < 0, element_at accesses elements from the last to the first.|
+|array_shuffle(array) -> array | Generate a random permutation of the given array x.|
+|sequence(start, end) -> array<Long> | Generate a sequence of integers from start to stop.|
+|sequence(start, end, step) -> array<Long> | Generate a sequence of integers from start to stop, incrementing by step.|
+|sequence(start_date_string, end_data_string, step) -> array<String> | Generate a sequence of date string from start to stop, incrementing by step.|
 
 ### 3. map functions
 | function| description |
@@ -145,6 +150,19 @@ You can also directly download file from [release page](https://github.com/aaron
 |url_encode(value) -> string | escapes value by encoding it so that it can be safely included in URL query parameter names and values|
 |url_decode(value) -> string | unescape the URL encoded value. This function is the inverse of `url_encode`. | 
 
+### 10. math functions
+
+| function| description |
+|:--|:--|
+|infinity() -> double | Returns the constant representing positive infinity.|
+|is_finite(x) -> boolean | Determine if x is finite.|
+|is_infinite(x) -> boolean |Determine if x is infinite.|
+|is_nan(x) -> boolean | Determine if x is not-a-number.|
+|nan() -> double | Returns the constant representing not-a-number. |
+|from_base(string, radix) -> bigint | Returns the value of string interpreted as a base-radix number.|
+|to_base(x, radix) -> varchar | Returns the base-radix representation of x.|
+|cosine_similarity(x, y) -> double | Returns the cosine similarity between the sparse vectors x and y|
+
 ## Use
 
 Put these statements into `${HOME}/.hiverc` or exec its on hive cli env.
@@ -168,6 +186,8 @@ create temporary function array_slice as 'com.github.aaronshan.functions.array.U
 create temporary function array_element_at as 'com.github.aaronshan.functions.array.UDFArrayElementAt';
 create temporary function bit_count as 'com.github.aaronshan.functions.bitwise.UDFBitCount';
 create temporary function bitwise_and as 'com.github.aaronshan.functions.bitwise.UDFBitwiseAnd';
+create temporary function array_shuffle as 'cc.shanruifeng.functions.array.UDFArrayShuffle';
+create temporary function sequence as 'cc.shanruifeng.functions.array.UDFSequence';
 create temporary function bitwise_not as 'com.github.aaronshan.functions.bitwise.UDFBitwiseNot';
 create temporary function bitwise_or as 'com.github.aaronshan.functions.bitwise.UDFBitwiseOr';
 create temporary function bitwise_xor as 'com.github.aaronshan.functions.bitwise.UDFBitwiseXor';
@@ -205,6 +225,14 @@ create temporary function gcj_to_wgs as 'com.github.aaronshan.functions.geo.UDFG
 create temporary function gcj_extract_wgs as 'com.github.aaronshan.functions.geo.UDFGeoGcjExtractWgs';
 create temporary function url_encode as 'com.github.aaronshan.functions.url.UDFUrlEncode';
 create temporary function url_decode as 'com.github.aaronshan.functions.url.UDFUrlDecode';
+create temporary function infinity as 'cc.shanruifeng.functions.math.UDFMathInfinity';
+create temporary function is_finite as 'cc.shanruifeng.functions.math.UDFMathIsFinite';
+create temporary function is_infinite as 'cc.shanruifeng.functions.math.UDFMathIsInfinite';
+create temporary function is_nan as 'cc.shanruifeng.functions.math.UDFMathIsNaN';
+create temporary function nan as 'cc.shanruifeng.functions.math.UDFMathIsNaN';
+create temporary function from_base as 'cc.shanruifeng.functions.math.UDFMathFromBase';
+create temporary function to_base as 'cc.shanruifeng.functions.math.UDFMathToBase';
+create temporary function cosine_similarity as 'cc.shanruifeng.functions.math.UDFMathCosineSimilarity';
 ```
 
 You can use these statements on hive cli env get detail of function.
@@ -257,6 +285,11 @@ select array_concat(array(16,12,18,9,null), array(14,9,6,18,null)) => [16,12,18,
 select array_value_count(array(16,13,12,13,18,16,9,18), 13) => 2
 select array_slice(array(16,13,12,13,18,16,9,18), -2, 3) => [9,18]
 select array_element_at(array(16,13,12,13,18,16,9,18), -1) => 18
+select array_shuffle(array(16,12,18,9))
+select sequence(1, 5) => [1, 2, 3, 4, 5]
+select sequence(5, 1) => [5, 4, 3, 2, 1]
+select sequence(1, 9, 4) => [1, 5, 9]
+select sequence('2016-04-12 00:00:00', '2016-04-14 00:00:00', 24*3600*1000) => ['2016-04-12 00:00:00', '2016-04-13 00:00:00', '2016-04-14 00:00:00']
 ```
 
 ```
@@ -301,4 +334,8 @@ select gcj_extract_wgs(39.915, 116.404) => {"lng":116.39775549316407,"lat":39.91
 
 ```
 select url_encode('http://shanruifeng.cc/') => http%3A%2F%2Fshanruifeng.cc%2F
+```
+
+```
+select cosine_similarity(map_build(array['a'], array[1.0]), map_build(array['a'], array[2.0])); => 1.0
 ```
