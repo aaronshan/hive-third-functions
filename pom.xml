@@ -38,7 +38,7 @@
         <guava.version>18.0</guava.version>
         <commons-codec.version>1.10</commons-codec.version>
         <dep.airlift.version>0.131</dep.airlift.version>
-        <dep.jackson.version>2.9.8</dep.jackson.version>
+        <dep.jackson.version>2.10.2</dep.jackson.version>
         <dep.jmh.version>1.9.3</dep.jmh.version>
         <junit.version>4.12</junit.version>
         <lambda.from.string.version>1.6</lambda.from.string.version>
