@@ -31,7 +31,7 @@
         <project.report.outputEncoding>UTF-8</project.report.outputEncoding>
         <project.report.inputEncoding>UTF-8</project.report.inputEncoding>
 
-        <hive.version>0.11.0</hive.version>
+        <hive.version>2.3.4</hive.version>
         <joda.time.version>2.7</joda.time.version>
         <hadoop.version>2.2.0</hadoop.version>
         <pinyin4j.version>2.5.0</pinyin4j.version>
