@@ -396,8 +396,6 @@ select url_encode('http://shanruifeng.cc/') => http%3A%2F%2Fshanruifeng.cc%2F
 select cosine_similarity(map_build(array['a'], array[1.0]), map_build(array['a'], array[2.0])); => 1.0
 ```
 
-# Star History
-
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=aaronshan/hive-third-functions&type=Date)](https://star-history.com/#aaronshan/hive-third-functions&Date)
