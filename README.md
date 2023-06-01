@@ -29,13 +29,13 @@ mvn install:install-file -DgroupId=javax.jdo -DartifactId=jdo2-api -Dversion=2.3
 
 ```
 cd ${project_home}
-mvn clean package
+mvn clean package -Ppro
 ```
 
 If you want to skip unit tests, please run:
 ```
 cd ${project_home}
-mvn clean package -DskipTests
+mvn clean package -DskipTests -Ppro
 ```
 
 It will generate hive-third-functions-${version}-shaded.jar in target directory.
@@ -179,6 +179,7 @@ Now, I had already release `hive-third-functions` to maven repositories. To add 
 |:--|:--|
 |url_encode(value) -> string | escapes value by encoding it so that it can be safely included in URL query parameter names and values|
 |url_decode(value) -> string | unescape the URL encoded value. This function is the inverse of `url_encode`. |
+|standard_url_format(string,string) -> array(varchar) | The normalized url returns the standard url and the 3-level category name|
 
 ### 10. math functions
 
@@ -210,85 +211,86 @@ Put these statements into `${HOME}/.hiverc` or exec its on hive cli env.
 
 ```
 add jar ${jar_location_dir}/hive-third-functions-${version}-shaded.jar
-create temporary function array_contains as 'com.github.aaronshan.functions.array.UDFArrayContains';
-create temporary function array_equals as 'com.github.aaronshan.functions.array.UDFArrayEquals';
-create temporary function array_intersect as 'com.github.aaronshan.functions.array.UDFArrayIntersect';
-create temporary function array_max as 'com.github.aaronshan.functions.array.UDFArrayMax';
-create temporary function array_min as 'com.github.aaronshan.functions.array.UDFArrayMin';
-create temporary function array_join as 'com.github.aaronshan.functions.array.UDFArrayJoin';
-create temporary function array_distinct as 'com.github.aaronshan.functions.array.UDFArrayDistinct';
-create temporary function array_position as 'com.github.aaronshan.functions.array.UDFArrayPosition';
-create temporary function array_remove as 'com.github.aaronshan.functions.array.UDFArrayRemove';
-create temporary function array_reverse as 'com.github.aaronshan.functions.array.UDFArrayReverse';
-create temporary function array_sort as 'com.github.aaronshan.functions.array.UDFArraySort';
-create temporary function array_concat as 'com.github.aaronshan.functions.array.UDFArrayConcat';
-create temporary function array_value_count as 'com.github.aaronshan.functions.array.UDFArrayValueCount';
-create temporary function array_slice as 'com.github.aaronshan.functions.array.UDFArraySlice';
-create temporary function array_element_at as 'com.github.aaronshan.functions.array.UDFArrayElementAt';
-create temporary function array_shuffle as 'com.github.aaronshan.functions.array.UDFArrayShuffle';
-create temporary function sequence as 'com.github.aaronshan.functions.array.UDFSequence';
-create temporary function array_value_count as 'com.github.aaronshan.functions.array.UDFArrayValueCount';
-create temporary function bit_count as 'com.github.aaronshan.functions.bitwise.UDFBitCount';
-create temporary function bitwise_and as 'com.github.aaronshan.functions.bitwise.UDFBitwiseAnd';
-create temporary function bitwise_not as 'com.github.aaronshan.functions.bitwise.UDFBitwiseNot';
-create temporary function bitwise_or as 'com.github.aaronshan.functions.bitwise.UDFBitwiseOr';
-create temporary function bitwise_xor as 'com.github.aaronshan.functions.bitwise.UDFBitwiseXor';
-create temporary function map_build as 'com.github.aaronshan.functions.map.UDFMapBuild';
-create temporary function map_concat as 'com.github.aaronshan.functions.map.UDFMapConcat';
-create temporary function map_element_at as 'com.github.aaronshan.functions.map.UDFMapElementAt';
-create temporary function map_equals as 'com.github.aaronshan.functions.map.UDFMapEquals';
-create temporary function day_of_week as 'com.github.aaronshan.functions.date.UDFDayOfWeek';
-create temporary function day_of_year as 'com.github.aaronshan.functions.date.UDFDayOfYear';
-create temporary function type_of_day as 'com.github.aaronshan.functions.date.UDFTypeOfDay'; 
-create temporary function zodiac_cn as 'com.github.aaronshan.functions.date.UDFZodiacSignCn';
-create temporary function zodiac_en as 'com.github.aaronshan.functions.date.UDFZodiacSignEn';
-create temporary function pinyin as 'com.github.aaronshan.functions.string.UDFChineseToPinYin';
-create temporary function md5 as 'com.github.aaronshan.functions.string.UDFMd5';
-create temporary function sha256 as 'com.github.aaronshan.functions.string.UDFSha256';
-create temporary function codepoint as 'com.github.aaronshan.functions.string.UDFCodePoint';
-create temporary function hamming_distance as 'com.github.aaronshan.functions.string.UDFStringHammingDistance';
-create temporary function levenshtein_distance as 'com.github.aaronshan.functions.string.UDFStringLevenshteinDistance';
-create temporary function normalize as 'com.github.aaronshan.functions.string.UDFStringNormalize';
-create temporary function strpos as 'com.github.aaronshan.functions.string.UDFStringPosition';
-create temporary function split_to_map as 'com.github.aaronshan.functions.string.UDFStringSplitToMap';
-create temporary function split_to_multimap as 'com.github.aaronshan.functions.string.UDFStringSplitToMultimap';
-create temporary function json_array_get as 'com.github.aaronshan.functions.json.UDFJsonArrayGet';
-create temporary function json_array_length as 'com.github.aaronshan.functions.json.UDFJsonArrayLength';
-create temporary function json_array_extract as 'com.github.aaronshan.functions.json.UDFJsonArrayExtract';
-create temporary function json_array_extract_scalar as 'com.github.aaronshan.functions.json.UDFJsonArrayExtractScalar';
-create temporary function json_extract as 'com.github.aaronshan.functions.json.UDFJsonExtract';
-create temporary function json_extract_scalar as 'com.github.aaronshan.functions.json.UDFJsonExtractScalar';
-create temporary function json_size as 'com.github.aaronshan.functions.json.UDFJsonSize';
-create temporary function id_card_province as 'com.github.aaronshan.functions.card.UDFChinaIdCardProvince';
-create temporary function id_card_city as 'com.github.aaronshan.functions.card.UDFChinaIdCardCity';
-create temporary function id_card_area as 'com.github.aaronshan.functions.card.UDFChinaIdCardArea';
-create temporary function id_card_birthday as 'com.github.aaronshan.functions.card.UDFChinaIdCardBirthday';
-create temporary function id_card_gender as 'com.github.aaronshan.functions.card.UDFChinaIdCardGender';
-create temporary function is_valid_id_card as 'com.github.aaronshan.functions.card.UDFChinaIdCardValid';
-create temporary function id_card_info as 'com.github.aaronshan.functions.card.UDFChinaIdCardInfo';
-create temporary function wgs_distance as 'com.github.aaronshan.functions.geo.UDFGeoWgsDistance';
-create temporary function gcj_to_bd as 'com.github.aaronshan.functions.geo.UDFGeoGcjToBd';
-create temporary function bd_to_gcj as 'com.github.aaronshan.functions.geo.UDFGeoBdToGcj';
-create temporary function wgs_to_gcj as 'com.github.aaronshan.functions.geo.UDFGeoWgsToGcj';
-create temporary function gcj_to_wgs as 'com.github.aaronshan.functions.geo.UDFGeoGcjToWgs';
-create temporary function gcj_extract_wgs as 'com.github.aaronshan.functions.geo.UDFGeoGcjExtractWgs';
-create temporary function url_encode as 'com.github.aaronshan.functions.url.UDFUrlEncode';
-create temporary function url_decode as 'com.github.aaronshan.functions.url.UDFUrlDecode';
-create temporary function infinity as 'com.github.aaronshan.functions.math.UDFMathInfinity';
-create temporary function is_finite as 'com.github.aaronshan.functions.math.UDFMathIsFinite';
-create temporary function is_infinite as 'com.github.aaronshan.functions.math.UDFMathIsInfinite';
-create temporary function nan as 'com.github.aaronshan.functions.math.UDFMathNaN';
-create temporary function is_nan as 'com.github.aaronshan.functions.math.UDFMathIsNaN';
-create temporary function from_base as 'com.github.aaronshan.functions.math.UDFMathFromBase';
-create temporary function to_base as 'com.github.aaronshan.functions.math.UDFMathToBase';
-create temporary function cosine_similarity as 'com.github.aaronshan.functions.math.UDFMathCosineSimilarity';
-create temporary function normal_cdf as 'com.github.aaronshan.functions.math.UDFMathNormalCdf';
-create temporary function inverse_normal_cdf as 'com.github.aaronshan.functions.math.UDFMathInverseNormalCdf';
-create temporary function regexp_extract as 'com.github.aaronshan.functions.regexp.UDFRe2JRegexpExtract';
-create temporary function regexp_extract_all as 'com.github.aaronshan.functions.regexp.UDFRe2JRegexpExtractAll';
-create temporary function regexp_like as 'com.github.aaronshan.functions.regexp.UDFRe2JRegexpLike';
-create temporary function regexp_replace as 'com.github.aaronshan.functions.regexp.UDFRe2JRegexpReplace';
-create temporary function regexp_split as 'com.github.aaronshan.functions.regexp.UDFRe2JRegexpSplit';
+create temporary function array_contains as 'UDFArrayContains';
+create temporary function array_equals as 'UDFArrayEquals';
+create temporary function array_intersect as 'UDFArrayIntersect';
+create temporary function array_max as 'UDFArrayMax';
+create temporary function array_min as 'UDFArrayMin';
+create temporary function array_join as 'UDFArrayJoin';
+create temporary function array_distinct as 'UDFArrayDistinct';
+create temporary function array_position as 'UDFArrayPosition';
+create temporary function array_remove as 'UDFArrayRemove';
+create temporary function array_reverse as 'UDFArrayReverse';
+create temporary function array_sort as 'UDFArraySort';
+create temporary function array_concat as 'UDFArrayConcat';
+create temporary function array_value_count as 'UDFArrayValueCount';
+create temporary function array_slice as 'UDFArraySlice';
+create temporary function array_element_at as 'UDFArrayElementAt';
+create temporary function array_shuffle as 'UDFArrayShuffle';
+create temporary function sequence as 'UDFSequence';
+create temporary function array_value_count as 'UDFArrayValueCount';
+create temporary function bit_count as 'UDFBitCount';
+create temporary function bitwise_and as 'UDFBitwiseAnd';
+create temporary function bitwise_not as 'UDFBitwiseNot';
+create temporary function bitwise_or as 'UDFBitwiseOr';
+create temporary function bitwise_xor as 'UDFBitwiseXor';
+create temporary function map_build as 'UDFMapBuild';
+create temporary function map_concat as 'UDFMapConcat';
+create temporary function map_element_at as 'UDFMapElementAt';
+create temporary function map_equals as 'UDFMapEquals';
+create temporary function day_of_week as 'UDFDayOfWeek';
+create temporary function day_of_year as 'UDFDayOfYear';
+create temporary function type_of_day as 'UDFTypeOfDay'; 
+create temporary function zodiac_cn as 'UDFZodiacSignCn';
+create temporary function zodiac_en as 'UDFZodiacSignEn';
+create temporary function pinyin as 'UDFChineseToPinYin';
+create temporary function md5 as 'UDFMd5';
+create temporary function sha256 as 'UDFSha256';
+create temporary function codepoint as 'UDFCodePoint';
+create temporary function hamming_distance as 'UDFStringHammingDistance';
+create temporary function levenshtein_distance as 'UDFStringLevenshteinDistance';
+create temporary function normalize as 'UDFStringNormalize';
+create temporary function strpos as 'UDFStringPosition';
+create temporary function split_to_map as 'UDFStringSplitToMap';
+create temporary function split_to_multimap as 'UDFStringSplitToMultimap';
+create temporary function json_array_get as 'UDFJsonArrayGet';
+create temporary function json_array_length as 'UDFJsonArrayLength';
+create temporary function json_array_extract as 'UDFJsonArrayExtract';
+create temporary function json_array_extract_scalar as 'UDFJsonArrayExtractScalar';
+create temporary function json_extract as 'UDFJsonExtract';
+create temporary function json_extract_scalar as 'UDFJsonExtractScalar';
+create temporary function json_size as 'UDFJsonSize';
+create temporary function id_card_province as 'UDFChinaIdCardProvince';
+create temporary function id_card_city as 'UDFChinaIdCardCity';
+create temporary function id_card_area as 'UDFChinaIdCardArea';
+create temporary function id_card_birthday as 'UDFChinaIdCardBirthday';
+create temporary function id_card_gender as 'UDFChinaIdCardGender';
+create temporary function is_valid_id_card as 'UDFChinaIdCardValid';
+create temporary function id_card_info as 'UDFChinaIdCardInfo';
+create temporary function wgs_distance as 'UDFGeoWgsDistance';
+create temporary function gcj_to_bd as 'UDFGeoGcjToBd';
+create temporary function bd_to_gcj as 'UDFGeoBdToGcj';
+create temporary function wgs_to_gcj as 'UDFGeoWgsToGcj';
+create temporary function gcj_to_wgs as 'UDFGeoGcjToWgs';
+create temporary function gcj_extract_wgs as 'UDFGeoGcjExtractWgs';
+create temporary function url_encode as 'UDFUrlEncode';
+create temporary function url_decode as 'UDFUrlDecode';
+create temporary function infinity as 'UDFMathInfinity';
+create temporary function is_finite as 'UDFMathIsFinite';
+create temporary function is_infinite as 'UDFMathIsInfinite';
+create temporary function nan as 'UDFMathNaN';
+create temporary function is_nan as 'UDFMathIsNaN';
+create temporary function from_base as 'UDFMathFromBase';
+create temporary function to_base as 'UDFMathToBase';
+create temporary function cosine_similarity as 'UDFMathCosineSimilarity';
+create temporary function normal_cdf as 'UDFMathNormalCdf';
+create temporary function inverse_normal_cdf as 'UDFMathInverseNormalCdf';
+create temporary function regexp_extract as 'UDFRe2JRegexpExtract';
+create temporary function regexp_extract_all as 'UDFRe2JRegexpExtractAll';
+create temporary function regexp_like as 'UDFRe2JRegexpLike';
+create temporary function regexp_replace as 'UDFRe2JRegexpReplace';
+create temporary function regexp_split as 'UDFRe2JRegexpSplit';
+create temporary function standard_url_format as 'UDFStandardUrlFormat';
 ```
 
 You can use these statements on hive cli env get detail of function.
@@ -390,6 +392,7 @@ select gcj_extract_wgs(39.915, 116.404) => {"lng":116.39775549316407,"lat":39.91
 
 ```
 select url_encode('http://shanruifeng.cc/') => http%3A%2F%2Fshanruifeng.cc%2F
+select standard_url_format('wap','https://m.chinagoods.com/en/venue?id=14&dsds=d') => ["https://m.chinagoods.com/en/venue/?id=14","营销会场","营销会场","测试-领券中心"] 
 ```
 
 ```

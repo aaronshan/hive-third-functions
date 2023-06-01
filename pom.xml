@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.aaronshan</groupId>
+    <groupId>com.chinagoods.bigdata</groupId>
     <artifactId>hive-third-functions</artifactId>
-    <version>2.2.1</version>
+    <version>2.2.7</version>
 
     <name>hive-third-functions</name>
     <url>https://github.com/aaronshan/hive-third-functions</url>
@@ -27,7 +27,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.targetJdk>1.6</project.build.targetJdk>
+        <project.build.targetJdk>1.8</project.build.targetJdk>
         <project.report.outputEncoding>UTF-8</project.report.outputEncoding>
         <project.report.inputEncoding>UTF-8</project.report.inputEncoding>
 
@@ -42,6 +42,8 @@
         <dep.jmh.version>1.9.3</dep.jmh.version>
         <junit.version>4.12</junit.version>
         <lambda.from.string.version>1.6</lambda.from.string.version>
+        <logback-classic-version>1.2.4</logback-classic-version>
+        <jar-scope>compile</jar-scope>
     </properties>
 
     <dependencyManagement>
@@ -50,12 +52,24 @@
                 <groupId>org.apache.hive</groupId>
                 <artifactId>hive-jdbc</artifactId>
                 <version>${hive.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.hadoop</groupId>
                 <artifactId>hadoop-common</artifactId>
                 <version>${hadoop.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -142,6 +156,19 @@
                 </exclusions>
             </dependency>
 
+            <!--ip地址转地区 https://github.com/lionsoul2014/ip2region-->
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>1.7.2</version>
+            </dependency>
+
+            <!-- mysql依赖 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.47</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -149,18 +176,37 @@
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-jdbc</artifactId>
-            <scope>provided</scope>
+            <scope>${jar-scope}</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
-            <scope>provided</scope>
+            <scope>${jar-scope}</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.jdo/jdo2-api -->
+        <dependency>
+            <groupId>javax.jdo</groupId>
+            <artifactId>jdo2-api</artifactId>
+            <version>2.3-eb</version>
         </dependency>
 
         <dependency>
@@ -218,6 +264,62 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+            <scope>${jar-scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.25</version>
+            <scope>${jar-scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.25</version>
+            <scope>${jar-scope}</scope>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>ch.qos.logback</groupId>-->
+<!--            <artifactId>logback-core</artifactId>-->
+<!--            <version>${logback-classic-version}</version>-->
+<!--            <scope>${jar-scope}</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>ch.qos.logback</groupId>-->
+<!--            <artifactId>logback-classic</artifactId>-->
+<!--            <version>${logback-classic-version}</version>-->
+<!--            <scope>${jar-scope}</scope>-->
+<!--        </dependency>-->
+        <!-- Add the log4j -> sfl4j (-> logback) bridge into the classpath
+        Hadoop is logging to log4j! -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>1.7.15</version>
+            <scope>${jar-scope}</scope>
+        </dependency>
+
+        <!--ip地址转地区 https://github.com/lionsoul2014/ip2region-->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+        </dependency>
+
+        <!-- mysql依赖 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.11.11</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -226,7 +328,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -234,12 +336,42 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <shadeTestJar>false</shadeTestJar>
                             <artifactSet>
+                                <!--<includes>
+                                    &lt;!&ndash;we include only kafka-clients which is used in
+                                    schema-registry-client (e.g. configuration classes). &ndash;&gt;
+                                    <include>org.apache.kafka:kafka-clients</include>
+                                    <include>com.fasterxml.jackson.core:*</include>
+                                    <include>org.apache.commons:commons-compress</include>
+                                </includes>-->
                                 <excludes>
-                                    <exclude></exclude>
+                                    <exclude>org.apache.flink:force-shading</exclude>
+                                    <exclude>com.google.code.findbugs:jsr305</exclude>
+                                    <exclude>org.slf4j:*</exclude>
+                                    <exclude>log4j:*</exclude>
                                 </excludes>
                             </artifactSet>
+                            <relocations  combine.children="append">
+                                <relocation>
+                                    <pattern>com.fasterxml.jackson</pattern>
+                                    <shadedPattern>com.chinagoods.shaded.com.fasterxml.jackson</shadedPattern>
+                                </relocation>
+                            </relocations>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <filters>
+                                <filter>
+                                    <!-- DO not copy the signatures in the META-INF folder.
+                                       Otherwise, this might cause SecurityExceptions when using the JAR. -->
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <!--zip -d learn_spark.jar META-INF/*.RSA META-INF/*.DSA META-INF/*.SF -->
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
@@ -284,7 +416,10 @@
 
     <profiles>
         <profile>
-            <id>release</id> <!-- 部署要用到 -->
+            <id>pro</id> <!-- 部署要用到 -->
+            <properties>
+                <jar-scope>provided</jar-scope>
+            </properties>
             <build>
                 <plugins>
                     <!-- Source -->
